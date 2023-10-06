@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+
+description="lists"
+command=/usr/bin/lists
+command_args="-dsn /var/lists/lists.db"
+command_user="lists"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
+output_log="/var/log/lists.log"
+error_log="/var/log/lists.err"
+
+depend() {
+	need net
+	use dns logger netmount
+}
