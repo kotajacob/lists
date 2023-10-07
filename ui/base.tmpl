@@ -54,13 +54,47 @@
 		border:1px solid;
 		padding: var(--s-2);
 	}
-	textarea.input {
+
+	.grow-wrap {
+		display: grid;
+	}
+	.grow-wrap::after {
+		/* Note the weird space! Needed to preventy jumpy behavior */
+		content: attr(data-replicated-value) " ";
+
+		/* This is how textarea text behaves */
+		white-space: pre-wrap;
+
+		/* Hidden from view, clicks, and screen readers */
+		visibility: hidden;
+	}
+	.grow-wrap > textarea {
+		resize: none;
+		overflow: hidden;
+	}
+	.grow-wrap > textarea,
+	.grow-wrap::after {
 		font-size: var(--s0);
+		background-clip:padding-box;
+		border:1px solid;
+		padding: var(--s-2);
+		grid-area: 1 / 1 / 2 / 2;
 	}
 	</style>
 </head>
 <body>
 	{{template "main" .}}
 </body>
+<script nonce="{{.CSPNonce}}">
+const growers = document.querySelectorAll(".grow-wrap");
+
+growers.forEach((grower) => {
+	const textarea = grower.querySelector("textarea");
+	grower.dataset.replicatedValue = textarea.value;
+	textarea.addEventListener("input", () => {
+		grower.dataset.replicatedValue = textarea.value;
+	});
+});
+</script>
 </html>
 {{end}}

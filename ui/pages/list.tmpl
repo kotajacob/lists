@@ -1,7 +1,12 @@
 {{define "main"}}
 	<main>
 		<form class="stack" method="post">
-			<textarea class="input" name="data" rows=12>{{ .Body }}</textarea>
+			<div class="grow-wrap">
+				<textarea
+					name="data"
+					id="text"
+					rows=12>{{ .Body }}</textarea>
+			</div>
 			<button class="input" type="submit">Update {{ .Name }}</button>
 		</form>
 	</main>
