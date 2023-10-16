@@ -86,14 +86,16 @@
 	{{template "main" .}}
 </body>
 <script nonce="{{.CSPNonce}}">
-const growers = document.querySelectorAll(".grow-wrap");
+const updater = document.querySelector("#update");
+updater.style.display = "none";
 
-growers.forEach((grower) => {
-	const textarea = grower.querySelector("textarea");
+const grower = document.querySelector(".grow-wrap");
+const textarea = grower.querySelector("textarea");
+grower.dataset.replicatedValue = textarea.value;
+
+textarea.addEventListener("input", () => {
 	grower.dataset.replicatedValue = textarea.value;
-	textarea.addEventListener("input", () => {
-		grower.dataset.replicatedValue = textarea.value;
-	});
+	updater.style.display = "unset";
 });
 </script>
 </html>
