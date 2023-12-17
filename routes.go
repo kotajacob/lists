@@ -135,10 +135,6 @@ func (app *application) edit(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := r.PostForm.Get("data")
-	if data == "" {
-		app.clientError(w, http.StatusBadRequest)
-	}
-
 	err = app.lists.Update(name, data)
 	if err != nil {
 		app.serverError(w, err)
