@@ -53,7 +53,7 @@ func (app *application) render(
 // home handles displaying the home page.
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	app.render(w, http.StatusOK, "home.tmpl", homePage{
-		CSPNonce: app.cspNonce,
+		CSPNonce: nonce(r.Context()),
 	})
 }
 
@@ -108,7 +108,7 @@ func (app *application) view(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.render(w, http.StatusOK, "list.tmpl", viewPage{
-		CSPNonce: app.cspNonce,
+		CSPNonce: nonce(r.Context()),
 		Name:     list.Name,
 		Body:     list.Body,
 	})

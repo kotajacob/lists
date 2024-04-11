@@ -19,11 +19,6 @@ type application struct {
 	errLog    *log.Logger
 	templates map[string]*template.Template
 
-	// In order to use inline css, we need to set a randomly generated nonce
-	// value for each request. This is set in our secureHeaders middleware
-	// and then used in our base template.
-	cspNonce string
-
 	lists *models.ListModel
 }
 
