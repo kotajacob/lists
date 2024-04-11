@@ -24,7 +24,7 @@ clean:
 	$(RM) lists
 
 run:
-	go run .
+	go run -race .
 
 watch:
 	fd -e go -e tmpl | entr -rs "go run ."
