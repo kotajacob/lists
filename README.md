@@ -8,4 +8,4 @@ Written and maintained by Dakota Walsh.
 Up-to-date sources can be found at https://git.sr.ht/~kota/lists/
 
 # license
-GNU GPL version 3 or later, see LICENSE.
+GNU AGPL version 3 or later, see LICENSE.
