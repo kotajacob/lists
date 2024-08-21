@@ -62,19 +62,5 @@ func main() {
 }
 
 func openDB(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", dsn)
-	if err != nil {
-		return nil, err
-	}
-	if err := db.Ping(); err != nil {
-		return nil, err
-	}
-	stmt := `CREATE TABLE IF NOT EXISTS lists (
-				name TEXT NOT NULL PRIMARY KEY,
-				body TEXT NOT NULL
-			);`
-	if _, err := db.Exec(stmt); err != nil {
-		return nil, err
-	}
-	return db, nil
+	return sql.Open("sqlite3", dsn)
 }
