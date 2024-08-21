@@ -10,16 +10,15 @@ import (
 	"strings"
 
 	"git.sr.ht/~kota/lists/models"
-	"github.com/julienschmidt/httprouter"
 )
 
 func (app *application) routes() http.Handler {
-	router := httprouter.New()
-	router.HandlerFunc(http.MethodGet, "/", app.home)
-	router.HandlerFunc(http.MethodPost, "/", app.create)
-	router.HandlerFunc(http.MethodGet, "/:name", app.view)
-	router.HandlerFunc(http.MethodPost, "/:name", app.edit)
-	return app.recoverPanic(app.logRequest(app.secureHeaders(router)))
+	mux := http.NewServeMux()
+	mux.HandleFunc("GET /{$}", app.home)
+	mux.HandleFunc("POST /{$}", app.create)
+	mux.HandleFunc("GET /{name}", app.view)
+	mux.HandleFunc("POST /{name}", app.edit)
+	return app.recoverPanic(app.logRequest(app.secureHeaders(mux)))
 }
 
 type homePage struct {
@@ -97,8 +96,7 @@ type viewPage struct {
 
 // view handles displaying a list page.
 func (app *application) view(w http.ResponseWriter, r *http.Request) {
-	params := httprouter.ParamsFromContext(r.Context())
-	name := params.ByName("name")
+	name := r.PathValue("name")
 	list, err := app.lists.Get(name)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
@@ -118,8 +116,7 @@ func (app *application) view(w http.ResponseWriter, r *http.Request) {
 
 // edit handles editing a list.
 func (app *application) edit(w http.ResponseWriter, r *http.Request) {
-	params := httprouter.ParamsFromContext(r.Context())
-	name := params.ByName("name")
+	name := r.PathValue("name")
 	_, err := app.lists.Get(name)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
